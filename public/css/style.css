@@ -35,12 +35,10 @@ h1 {
 }
 
 input:checked+p {
-  text-decoration: line-through;
   text-decoration-color: #310e6d;
 }
 
 input:checked+p{
-  text-decoration: line-through;
   text-decoration-color:#170733 ;
 }
 
@@ -58,7 +56,7 @@ p {
   color: #1f021e;
 }
 
-form {
+form.item {
   text-align: center;
   margin-left: 20px;
 }
