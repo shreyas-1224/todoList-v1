@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 // delete from list.
 app.post("/delete", (req, res)=>{
     var checked_id = req.body.checkbox;
-    console.log(checked_id);
+    console.log(req.body);
     ItemCollection.findByIdAndRemove(checked_id , (error)=>{
         if(error){
             console.log(error);
@@ -111,8 +111,29 @@ app.get("/about", (req, res) => {
 app.post("/", (req, res) => {
     const task = req.body.newItem;
     const listName = req.body.list;
+    console.log(listName  + " " + task);
+    const documentItem  = new ItemCollection({
+        name : task
+    });
+    if(listName == "Today"){
+        documentItem.save();
+        res.redirect("/");
+    }else{
+        ListModel.findOne({ name : listName } ,(error , result)=>{
+            if(!error){
+                result.items.push(documentItem);
+                result.save();
+                res.redirect("/" + listName);
+                
+            }else{
+                res.redirect("/" + listName);
+            }
+        } );
+    }
 
-    const documentItem = new ItemCollection({
+/*
+
+const documentItem = new ItemCollection({
         name: task
     });
 
@@ -132,7 +153,7 @@ app.post("/", (req, res) => {
         });
     }
 
-
+*/
 })
 
 
