@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const _ = require("lodash")
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,7 +72,14 @@ app.post("/delete", (req, res)=>{
         });
         res.redirect("/");
     }else{
-        
+        ListModel.findOneAndUpdate({name : listName} , {$pull : {items:{_id : checked_id}}} , (error,result)=>{
+            if(error){
+                console.log(error);
+            }
+            else{
+                res.redirect("/" + listName);
+            }
+        });
     }
     
     
@@ -78,8 +87,8 @@ app.post("/delete", (req, res)=>{
 
 // dynamic url
 app.get("/:urlParameter" , (req , res)=>{
-    const listType = req.params.urlParameter;
-    
+    var listType = req.params.urlParameter;
+    listType = _.capitalize(listType);
     ListModel.findOne({name : listType} , (error ,result)=>{
         if(!error){
             if(!result){
