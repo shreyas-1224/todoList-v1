@@ -59,14 +59,20 @@ app.get("/", (req, res) => {
 
 // delete from list.
 app.post("/delete", (req, res)=>{
-    var checked_id = req.body.checkbox;
-    console.log(req.body);
-    ItemCollection.findByIdAndRemove(checked_id , (error)=>{
-        if(error){
-            console.log(error);
-        }
-    });
-    res.redirect("/");
+    const checked_id = req.body.checkbox;
+    let listName = req.body.listName;
+    //console.log(listName);
+    if(listName == "Today"){
+        ItemCollection.findByIdAndRemove(checked_id , (error)=>{
+            if(error){
+                console.log(error);
+            }
+        });
+        res.redirect("/");
+    }else{
+        
+    }
+    
     
 });
 
@@ -159,7 +165,7 @@ const documentItem = new ItemCollection({
 
 
 // server is listening...
-app.listen(3000, () => {
+app.listen(3300, () => {
 
     console.log("You are favorite child of the Universe, Shreyas :)");
 
